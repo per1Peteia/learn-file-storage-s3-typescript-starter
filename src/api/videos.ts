@@ -63,7 +63,7 @@ export async function handlerUploadVideo(cfg: ApiConfig, req: BunRequest) {
 	const s3File = cfg.s3Client.file(key, { bucket: cfg.s3Bucket });
 	await s3File.write(videoFile, { type: mediaType });
 
-	video.videoURL = `https://${cfg.s3Bucket}.s3.${cfg.s3Region}.amazonaws.com/${key}`;
+	video.videoURL = `${cfg.s3CfDistribution}/${key}`;
 	updateVideo(cfg.db, video)
 
 	await Promise.all([rm(tempFilePath, { force: true })]);
